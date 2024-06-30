@@ -3,3 +3,4 @@ RUN apt-get update && apt-get install -y git maven
 WORKDIR /app
 COPY https://github.com/1315a/boxfuse-origin-1.git .
 RUN mvn clean package
+COPY target/.war /usr/local/tomcat/webapps/
