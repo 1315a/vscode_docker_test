@@ -1,20 +1,19 @@
-FROM tomcat:9.0.62-jre11
+FROM tomcat:9.0-jdk8-openjdk-slim
 
-# Установка JDK
-ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64
-ENV PATH $JAVA_HOME/bin:$PATH
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends git
 
-# Устанавливаем Git
-RUN apt-get update && \
-    apt-get install -y git
+RUN git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git /app
 
-# Установка Maven
-RUN apt-get update && \
-    apt-get install -y maven
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends maven
 
-# Клонирование приложения из репозитория GitHub
-WORKDIR /usr/local/tomcat/webapps
-RUN git clone https://github.com/1315a/boxfuse-origin-1.git .
+# Сборка приложения.
+WORKDIR /app
+RUN mvn clean install
 
-# запуск Tomcat
+# Копируем собранный war файл в папку tomcat.
+RUN cp target/hello-1.0.war /usr/local/tomcat/webapps/
+
+# Запускаем tomcat.
 CMD ["catalina.sh", "run"]
