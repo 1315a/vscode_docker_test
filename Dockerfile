@@ -16,6 +16,3 @@ RUN mvn clean install
 
 # Копируем собранный war файл в папку tomcat.
 RUN cp target/hello-1.0.war /usr/local/tomcat/webapps/
-
-# Запускаем tomcat.
-CMD ["catalina.sh", "run"]
