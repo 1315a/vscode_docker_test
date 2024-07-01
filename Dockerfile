@@ -1,3 +1,5 @@
+#Домашнее задание к Занятию 6
+
 FROM tomcat:9.0-jdk8-openjdk-slim
 
 RUN apt-get update \
